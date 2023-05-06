@@ -1,16 +1,11 @@
-﻿namespace UdemyJwtApp.Back.Core.Domain
+﻿namespace UdemyJwtApp.Back.Core.Application.Dto
 {
-    public class Product
+    public class ProductListDto
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public int Stock { get; set; }
         public decimal Price { get; set; }
-
-
-        //Nav Props
         public int CategoryId { get; set; }
-        public Category? Category { get; set; }
-       
     }
 }

@@ -1,16 +1,13 @@
-﻿namespace UdemyJwtApp.Back.Core.Domain
+﻿using MediatR;
+
+namespace UdemyJwtApp.Back.Core.Features.CQRS.Commands
 {
-    public class Product
+    public class UpdateProductCommandRequest : IRequest
     {
         public int Id { get; set; }
         public string? Name { get; set; }
         public int Stock { get; set; }
         public decimal Price { get; set; }
-
-
-        //Nav Props
         public int CategoryId { get; set; }
-        public Category? Category { get; set; }
-       
     }
 }

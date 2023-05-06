@@ -26,7 +26,7 @@ namespace UdemyJwtApp.Back.Persistance.Repositories
             return await context.Set<T>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<T?> GetByFilter(Expression<Func<T, bool>> filter)
+        public async Task<T?> GetByFilterAsync(Expression<Func<T, bool>> filter)
         {
             return await context.Set<T>().AsNoTracking().SingleOrDefaultAsync(filter);
 

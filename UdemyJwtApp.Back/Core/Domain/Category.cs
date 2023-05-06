@@ -6,10 +6,7 @@
         public string Definition { get; set; }
 
         //Nav Props
-        public List<Product> Products { get; set; }
-        public Category()
-        {
-            Products = new List<Product>();
-        }
+        public List<Product>? Products { get; set; }
+       
     }
 }
