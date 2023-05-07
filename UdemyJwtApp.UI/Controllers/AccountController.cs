@@ -34,23 +34,36 @@ namespace UdemyJwtApp.UI.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     var jsonData = await response.Content.ReadAsStringAsync();
-                    var tokenModel = JsonSerializer.Deserialize<JwtTokenResponseModel>(jsonData);
+                    var tokenModel = JsonSerializer.Deserialize<JwtTokenResponseModel>(jsonData, new JsonSerializerOptions
+                    {
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
 
-                    if (tokenModel is not null)
+                    if (tokenModel != null)
                     {
                         JwtSecurityTokenHandler handler = new();
                         var token = handler.ReadJwtToken(tokenModel.Token);
-                        var claimsIdentity = new ClaimsIdentity(token.Claims, JwtBearerDefaults.AuthenticationScheme);
 
-                        var authProps = new AuthenticationProperties()
+                        var claims = token.Claims.ToList();
+
+                        if (tokenModel.Token != null)
+                            claims.Add(new Claim("accesToken", tokenModel.Token));
+
+                        var claimsIdentity = new ClaimsIdentity(claims, JwtBearerDefaults.AuthenticationScheme);
+
+                        var authProps = new AuthenticationProperties
                         {
                             ExpiresUtc = tokenModel.ExpireDate,
                             IsPersistent = true,
                         };
 
+
                         await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProps);
+
                         return RedirectToAction("Index", "Home");
                     }
+
+
                 }
                 else
                     ModelState.AddModelError("", "Kullanıcı adı veya şifre hatalıdır");
