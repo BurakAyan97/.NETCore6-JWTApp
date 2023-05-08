@@ -19,10 +19,16 @@ namespace Onion.JwtApp.Persistence.Repositories
             _context = context;
         }
 
-        public async Task CreateAsync(T entity)
+        public async Task<int> CommitAsync()
+        {
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<T?> CreateAsync(T entity)
         {
             _context.Set<T>().Add(entity);
             await _context.SaveChangesAsync();
+            return entity;
         }
 
         public async Task<List<T>> GetAllAsync()
@@ -39,11 +45,15 @@ namespace Onion.JwtApp.Persistence.Repositories
         {
             return await _context.Set<T>().FindAsync(id);
         }
-
         public async Task Remove(T entity)
         {
             _context.Set<T>().Remove(entity);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> SaveChangesAsync()
+        {
+            return await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity)
